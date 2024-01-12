@@ -7,6 +7,9 @@ export default function Header(){
     const cartCtx=useContext(CartContext);
     const userProgressCtx=useContext(UserProgressContext);
 
+
+    console.log("Header items:", cartCtx.items);
+
     const totalCartItems = cartCtx.items.reduce((totalNumberOfItems,item)=>{
         return totalNumberOfItems +item.quantity;
     },0);

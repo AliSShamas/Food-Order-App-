@@ -27,16 +27,27 @@ function cartReducer(state, action) {
   }
   if (action.type === "REMOVE_ITEM") {
     const existingCartItemIndex = state.items.findIndex(
-        (item) => item.id === action.id
+        (item) => item.id === action.item
       );
+
+      if (existingCartItemIndex === -1) {
+        console.error('Item not found in cart');
+        return state;
+    }
+
+
       const existingCartItem=state.items[existingCartItemIndex];
+
+      let updatedItems;
+
       if (existingCartItem.quantity===1){
-        const updatedItems=[...state.items];
+        let updatedItems=[...state.items];
         updatedItems.splice(existingCartItemIndex,1);
       }
       else{
+        updatedItems = [...state.items];
         const updatedItem={...existingCartItem,quantity:existingCartItem.quantity - 1};
-    updatedItems[existingCartItemIndex]= updatedItem;  
+        updatedItems[existingCartItemIndex]= updatedItem;  
     }
 
  return {...state,items:updatedItems};
@@ -61,7 +72,7 @@ export function CartContextProvider({ children }) {
     dispatchCartAction({type:'CLEAR_CART'})
   }
   const cartContext = {
-    items :cart.items,
+    items :cart.items || [],
     addItem:addItem,
     removeItem:removeItem,
     clearCart

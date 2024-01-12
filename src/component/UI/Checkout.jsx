@@ -19,6 +19,9 @@ export default function Checkout() {
   const cartCtx = useContext(CartContext);
   const userProgressCtx = useContext(UserProgressContext);
 
+
+  console.log("Checkout items:", cartCtx.items);
+
   const {
     data,
     isLoading: isSending,
